@@ -4,7 +4,6 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  Alert,
   ScrollView,
   KeyboardAvoidingView,
   Platform,
@@ -29,21 +28,25 @@ export default function Cadastro({ navigation }: Props) {
   const [confirmSenha, setConfirmSenha] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
-  const [cadastroSuccess, setCadastroSuccess] = useState(false); // NOVO ESTADO
+  const [cadastroSuccess, setCadastroSuccess] = useState(false);
+  const [errorMessage, setErrorMessage] = useState(""); // NOVO ESTADO
 
   function handleCadastro(){
     try {
         if(!nome || !email || !senha || !confirmSenha){
-            return Alert.alert("Atenção", "Preencha todos os campos");
-        }
-        if(senha !== confirmSenha){
-            return Alert.alert("Atenção", "As senhas não coincidem");
+            setErrorMessage("Preencha todos os campos");
+            setTimeout(() => setErrorMessage(""), 3000);
+            return;
         }
         
-        // Mostra a mensagem de sucesso na tela
+        if(senha !== confirmSenha){
+            setErrorMessage("As senhas não coincidem");
+            setTimeout(() => setErrorMessage(""), 3000);
+            return;
+        }
+        
         setCadastroSuccess(true);
         
-        // Esconde a mensagem após 3 segundos e volta para o login
         setTimeout(() => {
           setCadastroSuccess(false);
           navigation.navigate("Login");
@@ -51,6 +54,8 @@ export default function Cadastro({ navigation }: Props) {
         
     } catch (error) {
         console.log("Erro ao cadastrar", error);
+        setErrorMessage("Erro ao fazer cadastro");
+        setTimeout(() => setErrorMessage(""), 3000);
     }
   }
 
@@ -66,11 +71,19 @@ export default function Cadastro({ navigation }: Props) {
       >
         <View style={styles.container}>
           
-          {/* MENSAGEM DE SUCESSO - aparece quando cadastroSuccess = true */}
+          {/* MENSAGEM DE ERRO */}
+          {errorMessage !== "" && (
+            <View style={[styles.floatingMessage, styles.errorMessage]}>
+              <MaterialIcons name="error" size={24} color={themes.colors.white} />
+              <Text style={styles.floatingMessageText}>{errorMessage}</Text>
+            </View>
+          )}
+          
+          {/* MENSAGEM DE SUCESSO */}
           {cadastroSuccess && (
-            <View style={styles.successMessage}>
+            <View style={[styles.floatingMessage, styles.successMessage]}>
               <MaterialIcons name="check-circle" size={24} color={themes.colors.white} />
-              <Text style={styles.successText}>Cadastro realizado com sucesso!</Text>
+              <Text style={styles.floatingMessageText}>Cadastro realizado com sucesso!</Text>
             </View>
           )}
           

@@ -5,7 +5,6 @@ import {
   Image,
   TextInput,
   TouchableOpacity,
-  Alert,
   KeyboardAvoidingView,
   Platform,
   ScrollView,
@@ -28,24 +27,24 @@ export default function Login({ navigation }: Props) {
     const [email, setEmail] = useState("");
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
-    const [loginSuccess, setLoginSuccess] = useState(false); // NOVO ESTADO
-    
+    const [loginSuccess, setLoginSuccess] = useState(false);
+    const [errorMessage, setErrorMessage] = useState(""); // NOVO ESTADO
+
     function getLogin(){
       try {
         if(!email || !senha){
-          return Alert.alert("Atenção", "Preencha todos os campos")
+          setErrorMessage("Preencha todos os campos");
+          setTimeout(() => setErrorMessage(""), 3000);
+          return;
         }
         
-        // Mostra a mensagem de sucesso na tela
         setLoginSuccess(true);
-        
-        // Opcional: esconder a mensagem após alguns segundos
-        setTimeout(() => {
-          setLoginSuccess(false);
-        }, 3000);
+        setTimeout(() => setLoginSuccess(false), 3000);
         
       } catch (error) {
-        console.log("Erro ao realizar login", error)
+        console.log("Erro ao realizar login", error);
+        setErrorMessage("Erro ao fazer login");
+        setTimeout(() => setErrorMessage(""), 3000);
       }
     };
 
@@ -61,11 +60,19 @@ export default function Login({ navigation }: Props) {
           >
             <View style={styles.container}>
               
-              {/* MENSAGEM DE SUCESSO - aparece quando loginSuccess = true */}
+              {/* MENSAGEM DE ERRO */}
+              {errorMessage !== "" && (
+                <View style={[styles.floatingMessage, styles.errorMessage]}>
+                  <MaterialIcons name="error" size={24} color={themes.colors.white} />
+                  <Text style={styles.floatingMessageText}>{errorMessage}</Text>
+                </View>
+              )}
+              
+              {/* MENSAGEM DE SUCESSO */}
               {loginSuccess && (
-                <View style={styles.successMessage}>
+                <View style={[styles.floatingMessage, styles.successMessage]}>
                   <MaterialIcons name="check-circle" size={24} color={themes.colors.white} />
-                  <Text style={styles.successText}>Login realizado com sucesso!</Text>
+                  <Text style={styles.floatingMessageText}>Login realizado com sucesso!</Text>
                 </View>
               )}
               

@@ -12,27 +12,6 @@ export const styles = StyleSheet.create({
         padding: 24,
         backgroundColor: themes.colors.beige,
     },
-    successMessage: {
-        position: 'absolute',
-        top: 50,
-        left: 20,
-        right: 20,
-        backgroundColor: '#4CAF50',
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 12,
-        borderRadius: 8,
-        zIndex: 1000,
-        boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
-        elevation: 5,
-    },
-    successText: {
-        color: themes.colors.white,
-        fontSize: 16,
-        fontWeight: '600',
-        marginLeft: 8,
-    },
     backButton: {
         width: 40,
         height: 40,
@@ -125,5 +104,33 @@ export const styles = StyleSheet.create({
         color: themes.colors.primary,
         fontSize: 14,
         fontWeight: "600",
+    },
+
+    // ===== ESTILOS PARA MENSAGENS FLUTUANTES =====
+    floatingMessage: {
+        position: 'absolute',
+        top: 50,
+        left: 20,
+        right: 20,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 12,
+        borderRadius: 8,
+        zIndex: 1000,
+        boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
+        elevation: 5,
+    },
+    successMessage: {
+        backgroundColor: '#4CAF50', // Verde
+    },
+    errorMessage: {
+        backgroundColor: '#f44336', // Vermelho
+    },
+    floatingMessageText: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+        marginLeft: 8,
     },
 });

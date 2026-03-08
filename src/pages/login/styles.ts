@@ -23,7 +23,6 @@ export const styles = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     marginBottom: 20,
-    // Shadow atualizado para boxShadow
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
     elevation: 5,
   },
@@ -64,7 +63,6 @@ export const styles = StyleSheet.create({
     borderRadius: 16,
     paddingHorizontal: 16,
     height: 56,
-    // Shadow atualizado para boxShadow
     boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.05)',
     elevation: 2,
   },
@@ -97,7 +95,6 @@ export const styles = StyleSheet.create({
     height: 56,
     justifyContent: "center",
     alignItems: "center",
-    // Shadow atualizado para boxShadow
     boxShadow: '0px 4px 8px rgba(74, 144, 226, 0.3)',
     elevation: 5,
   },
@@ -116,47 +113,37 @@ export const styles = StyleSheet.create({
     color: themes.colors.darkGray,
     fontSize: 14,
   },
-
-
-
-
-
-
-// Adicione isso no final do seu arquivo de estilos, antes do último }
-successMessage: {
-  position: 'absolute',
-  top: 50,
-  left: 20,
-  right: 20,
-  backgroundColor: '#4CAF50',
-  flexDirection: 'row',
-  alignItems: 'center',
-  justifyContent: 'center',
-  padding: 12,
-  borderRadius: 8,
-  zIndex: 1000,
-  boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
-  elevation: 5,
-},
-successText: {
-  color: themes.colors.white,
-  fontSize: 16,
-  fontWeight: '600',
-  marginLeft: 8,
-},
-
-
-
-
-
-
-
-
-
-
   registerLink: {
     color: themes.colors.primary,
     fontSize: 14,
     fontWeight: "600",
+  },
+
+  // ===== ESTILOS PARA MENSAGENS FLUTUANTES =====
+  floatingMessage: {
+    position: 'absolute',
+    top: 50,
+    left: 20,
+    right: 20,
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'center',
+    padding: 12,
+    borderRadius: 8,
+    zIndex: 1000,
+    boxShadow: '0px 2px 4px rgba(0,0,0,0.2)',
+    elevation: 5,
+  },
+  successMessage: {
+    backgroundColor: '#4CAF50', // Verde
+  },
+  errorMessage: {
+    backgroundColor: '#f44336', // Vermelho
+  },
+  floatingMessageText: {
+    color: themes.colors.white,
+    fontSize: 16,
+    fontWeight: '600',
+    marginLeft: 8,
   },
 });
