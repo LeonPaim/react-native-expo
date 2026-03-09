@@ -2,12 +2,14 @@ import React from "react";
 import {NavigationContainer} from "@react-navigation/native";
 import Login from "./pages/login/index";
 import Cadastro from "./pages/cadastro/index";
+import Home from "./pages/home/index";
 import {createStackNavigator} from "@react-navigation/stack";
 import { themes } from "./global/themes";
 
-type RootStackParamList = {
+export type RootStackParamList = {
     Login: undefined;
     Cadastro: undefined;
+    Home: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -24,6 +26,7 @@ export default function AppNavigation() {
             >
                 <Stack.Screen name="Login" component={Login} />
                 <Stack.Screen name="Cadastro" component={Cadastro} />
+                <Stack.Screen name="Home" component={Home} />
             </Stack.Navigator>
         </NavigationContainer>
     );

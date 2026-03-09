@@ -8,7 +8,8 @@ import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  StatusBar
+  StatusBar,
+  Alert
 } from 'react-native';
 
 import { styles } from './styles';
@@ -19,6 +20,7 @@ import { NativeStackScreenProps } from '@react-navigation/native-stack';
 type RootStackParamList = {
   Login: undefined;
   Cadastro: undefined;
+  Home: undefined;
 };
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Login'>;
@@ -28,25 +30,30 @@ export default function Login({ navigation }: Props) {
     const [senha, setSenha] = useState("");
     const [showPassword, setShowPassword] = useState(false);
     const [loginSuccess, setLoginSuccess] = useState(false);
-    const [errorMessage, setErrorMessage] = useState(""); // NOVO ESTADO
+    const [errorMessage, setErrorMessage] = useState("");
 
     function getLogin(){
-      try {
-        if(!email || !senha){
-          setErrorMessage("Preencha todos os campos");
-          setTimeout(() => setErrorMessage(""), 3000);
-          return;
-        }
-        
-        setLoginSuccess(true);
-        setTimeout(() => setLoginSuccess(false), 3000);
-        
-      } catch (error) {
-        console.log("Erro ao realizar login", error);
-        setErrorMessage("Erro ao fazer login");
-        setTimeout(() => setErrorMessage(""), 3000);
-      }
-    };
+  try {
+    if(!email || !senha){
+      setErrorMessage("Preencha todos os campos");
+      setTimeout(() => setErrorMessage(""), 3000);
+      return;
+    }
+    
+    setLoginSuccess(true);
+    
+    // Navega para Home após 1.5 segundos (tempo de ver a mensagem)
+    setTimeout(() => {
+      setLoginSuccess(false);
+      navigation.navigate("Home");
+    }, 1500);
+    
+  } catch (error) {
+    console.log("Erro ao realizar login", error);
+    setErrorMessage("Erro ao fazer login");
+    setTimeout(() => setErrorMessage(""), 3000);
+  }
+};
 
     return (
         <KeyboardAvoidingView 
@@ -78,11 +85,11 @@ export default function Login({ navigation }: Props) {
               
               <View style={styles.boxTop}>
                 <View style={styles.logoContainer}>
-                  <Image 
+                  {<Image 
                     source={require('../../assets/icone-login.png')} 
                     style={styles.logo}
                     resizeMode="contain"
-                  />
+                  />}
                 </View>
                 <Text style={styles.welcomeText}>Bem-vindo de volta!</Text>
                 <Text style={styles.subtitle}>Faça login para continuar</Text>

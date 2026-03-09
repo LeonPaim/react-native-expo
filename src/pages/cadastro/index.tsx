@@ -7,17 +7,14 @@ import {
   ScrollView,
   KeyboardAvoidingView,
   Platform,
-  StatusBar
+  StatusBar,
+  Alert
 } from 'react-native';
 import {styles} from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
-
-type RootStackParamList = {
-  Login: undefined;
-  Cadastro: undefined;
-};
+import { RootStackParamList } from '../../App.Navigation';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Cadastro'>;
 
@@ -29,7 +26,7 @@ export default function Cadastro({ navigation }: Props) {
   const [showPassword, setShowPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const [cadastroSuccess, setCadastroSuccess] = useState(false);
-  const [errorMessage, setErrorMessage] = useState(""); // NOVO ESTADO
+  const [errorMessage, setErrorMessage] = useState("");
 
   function handleCadastro(){
     try {
@@ -45,11 +42,21 @@ export default function Cadastro({ navigation }: Props) {
             return;
         }
         
+        Alert.alert(
+          "Sucesso", 
+          "Cadastro realizado com sucesso!",
+          [
+            { 
+              text: "OK", 
+              onPress: () => navigation.navigate("Login")
+            }
+          ]
+        );
+        
         setCadastroSuccess(true);
         
         setTimeout(() => {
           setCadastroSuccess(false);
-          navigation.navigate("Login");
         }, 3000);
         
     } catch (error) {
