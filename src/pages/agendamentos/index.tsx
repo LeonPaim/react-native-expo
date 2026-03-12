@@ -15,6 +15,7 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import Header from '../../components/header';
 
 interface Cliente {
     id: string;
@@ -50,11 +51,9 @@ export default function Agendamentos() {
   const [modalVisible, setModalVisible] = useState(false);
   const [editandoId, setEditandoId] = useState<string | null>(null);
   
-  // Estados para selects
   const [showClientesDropdown, setShowClientesDropdown] = useState(false);
   const [showServicosDropdown, setShowServicosDropdown] = useState(false);
   
-  // Estados do formulário
   const [clienteId, setClienteId] = useState('');
   const [clienteNome, setClienteNome] = useState('');
   const [servicoId, setServicoId] = useState('');
@@ -65,7 +64,6 @@ export default function Agendamentos() {
   const [observacoes, setObservacoes] = useState('');
   const [status, setStatus] = useState<'agendado' | 'confirmado' | 'cancelado' | 'realizado'>('agendado');
 
-  // Estados para DatePicker
   const [showDatePicker, setShowDatePicker] = useState(false);
   const [showTimePicker, setShowTimePicker] = useState(false);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -76,14 +74,12 @@ export default function Agendamentos() {
 
   const carregarDados = async () => {
     try {
-      // Carregar clientes
       const clientesData = await AsyncStorage.getItem('@barbearia:clientes');
       if (clientesData) {
         const clientesParsed = JSON.parse(clientesData);
         setClientes(clientesParsed.map((c: any) => ({ id: c.id, nome: c.nome, telefone: c.telefone })));
       }
 
-      // Carregar serviços ativos
       const servicosData = await AsyncStorage.getItem('@barbearia:servicos');
       if (servicosData) {
         const servicosParsed = JSON.parse(servicosData);
@@ -96,12 +92,10 @@ export default function Agendamentos() {
         })));
       }
 
-      // Carregar agendamentos
       const agendamentosData = await AsyncStorage.getItem('@barbearia:agendamentos');
       if (agendamentosData) {
         setAgendamentos(JSON.parse(agendamentosData));
       } else {
-        // Dados iniciais para exemplo
         const iniciais: Agendamento[] = [
           {
             id: Date.now().toString(),
@@ -239,7 +233,6 @@ export default function Agendamentos() {
     setObservacoes(agendamento.observacoes);
     setStatus(agendamento.status);
     
-    // Atualizar data selecionada no picker
     const [ano, mes, dia] = agendamento.data.split('-').map(Number);
     setSelectedDate(new Date(ano, mes - 1, dia));
     
@@ -256,10 +249,10 @@ export default function Agendamentos() {
 
   const getStatusColor = (status: string) => {
     switch(status) {
-      case 'agendado': return '#FFA500'; // Laranja
-      case 'confirmado': return '#4CAF50'; // Verde
-      case 'cancelado': return '#f44336'; // Vermelho
-      case 'realizado': return '#2196F3'; // Azul
+      case 'agendado': return '#FFA500';
+      case 'confirmado': return '#4CAF50';
+      case 'cancelado': return '#f44336';
+      case 'realizado': return '#2196F3';
       default: return themes.colors.gray;
     }
   };
@@ -352,7 +345,6 @@ export default function Agendamentos() {
     );
   };
 
-  // Ordenar agendamentos por data e hora
   const agendamentosOrdenados = [...agendamentos].sort((a, b) => {
     if (a.data === b.data) {
       return a.hora.localeCompare(b.hora);
@@ -362,8 +354,10 @@ export default function Agendamentos() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitulo}>Agendamentos</Text>
+      <Header title="Agendamentos" />
+      
+      <View style={styles.actionBar}>
+        <Text style={styles.actionBarTitulo}>Próximos Agendamentos</Text>
         <TouchableOpacity 
           style={styles.botaoNovo}
           onPress={() => {
@@ -414,7 +408,6 @@ export default function Agendamentos() {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-              {/* Selecionar Cliente */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Cliente *</Text>
                 <TouchableOpacity 
@@ -453,7 +446,6 @@ export default function Agendamentos() {
                 )}
               </View>
 
-              {/* Selecionar Serviço */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Serviço *</Text>
                 <TouchableOpacity 
@@ -493,7 +485,6 @@ export default function Agendamentos() {
                 )}
               </View>
 
-              {/* Data e Hora */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>Data *</Text>
@@ -522,7 +513,6 @@ export default function Agendamentos() {
                 </View>
               </View>
 
-              {/* Observações */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Observações</Text>
                 <View style={[styles.inputContainer, styles.textAreaContainer]}>
@@ -540,7 +530,6 @@ export default function Agendamentos() {
                 </View>
               </View>
 
-              {/* Status (só aparece na edição) */}
               {editandoId && (
                 <View style={styles.inputGroup}>
                   <Text style={styles.label}>Status</Text>
@@ -576,7 +565,6 @@ export default function Agendamentos() {
         </View>
       </Modal>
 
-      {/* DatePicker */}
       {showDatePicker && (
         <DateTimePicker
           value={selectedDate}
@@ -587,7 +575,6 @@ export default function Agendamentos() {
         />
       )}
 
-      {/* TimePicker */}
       {showTimePicker && (
         <DateTimePicker
           value={selectedDate}

@@ -14,8 +14,7 @@ import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
-
+import Header from '../../components/header';
 
 interface Cliente {
     id: string;
@@ -39,7 +38,6 @@ export default function Clientes() {
   const [editandoId, setEditandoId] = useState<string | null>(null);
   const [buscandoCep, setBuscandoCep] = useState(false);
   
-  // Estados do formulário
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
@@ -62,7 +60,6 @@ export default function Clientes() {
       if (dados) {
         setClientes(JSON.parse(dados));
       } else {
-        // Dados iniciais para exemplo
         const iniciais: Cliente[] = [
           {
             id: Date.now().toString(),
@@ -104,7 +101,6 @@ export default function Clientes() {
   };
 
   const buscarCep = async (cepDigitado: string) => {
-    // Remove caracteres não numéricos
     const cepLimpo = cepDigitado.replace(/\D/g, '');
     
     if (cepLimpo.length !== 8) {
@@ -122,7 +118,6 @@ export default function Clientes() {
         return;
       }
 
-      // Preenche os campos com os dados da API
       setLogradouro(data.logradouro || '');
       setBairro(data.bairro || '');
       setCidade(data.localidade || '');
@@ -176,11 +171,9 @@ export default function Clientes() {
     let novosClientes: Cliente[];
 
     if (editandoId) {
-      // Editar
       novosClientes = clientes.map(c => c.id === editandoId ? novoCliente : c);
       Alert.alert('Sucesso', 'Cliente atualizado!');
     } else {
-      // Novo
       novosClientes = [...clientes, novoCliente];
       Alert.alert('Sucesso', 'Cliente cadastrado!');
     }
@@ -303,8 +296,10 @@ export default function Clientes() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitulo}>Clientes</Text>
+      <Header title="Clientes" />
+      
+      <View style={styles.actionBar}>
+        <Text style={styles.actionBarTitulo}>Lista de Clientes</Text>
         <TouchableOpacity 
           style={styles.botaoNovo}
           onPress={() => {
@@ -355,7 +350,6 @@ export default function Clientes() {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-              {/* Nome */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Nome *</Text>
                 <View style={styles.inputContainer}>
@@ -370,7 +364,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* Telefone e Email */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>Telefone *</Text>
@@ -405,7 +398,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* CEP com busca */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>CEP</Text>
                 <View style={styles.inputContainer}>
@@ -432,7 +424,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* Logradouro e Número */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 2, marginRight: 8 }]}>
                   <Text style={styles.label}>Logradouro</Text>
@@ -463,7 +454,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* Complemento e Bairro */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>Complemento</Text>
@@ -494,7 +484,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* Cidade e UF */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 3, marginRight: 8 }]}>
                   <Text style={styles.label}>Cidade</Text>
@@ -527,7 +516,6 @@ export default function Clientes() {
                 </View>
               </View>
 
-              {/* Observações */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Observações</Text>
                 <View style={[styles.inputContainer, styles.textAreaContainer]}>

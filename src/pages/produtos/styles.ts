@@ -333,4 +333,31 @@ export const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: '700',
     },
+
+
+    
+    actionBar: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        backgroundColor: themes.colors.beige,
+    },
+    actionBarTitulo: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: themes.colors.black,
+    },
+    listaVazia: {
+        alignItems: 'center',
+        padding: 40,
+    },
+    listaVaziaTexto: {
+        color: themes.colors.darkGray,
+        marginTop: 10,
+        fontSize: 16,
+    },
+
+
 });

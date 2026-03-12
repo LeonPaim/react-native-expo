@@ -14,6 +14,7 @@ import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from '../../components/header';
 
 interface Servico {
     id: string;
@@ -207,11 +208,12 @@ export default function Servicos() {
     </View>
   );
 
-  // ⚠️ IMPORTANTE: Verifique se este RETURN está no final do componente
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitulo}>Serviços</Text>
+      <Header title="Serviços" />
+      
+      <View style={styles.actionBar}>
+        <Text style={styles.actionBarTitulo}>Lista de Serviços</Text>
         <TouchableOpacity 
           style={styles.botaoNovo}
           onPress={() => {
@@ -230,6 +232,12 @@ export default function Servicos() {
         renderItem={renderServico}
         contentContainerStyle={styles.lista}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={
+          <View style={styles.listaVazia}>
+            <MaterialIcons name="content-cut" size={60} color={themes.colors.lightGray} />
+            <Text style={styles.listaVaziaTexto}>Nenhum serviço cadastrado</Text>
+          </View>
+        }
       />
 
       <Modal

@@ -14,6 +14,7 @@ import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import Header from '../../components/header';
 
 interface Produto {
     id: string;
@@ -35,7 +36,6 @@ export default function Produtos() {
   const [filtroCategoria, setFiltroCategoria] = useState<string>('todos');
   const [busca, setBusca] = useState('');
   
-  // Estados do formulário
   const [nome, setNome] = useState('');
   const [descricao, setDescricao] = useState('');
   const [preco, setPreco] = useState('');
@@ -63,7 +63,6 @@ export default function Produtos() {
       if (dados) {
         setProdutos(JSON.parse(dados));
       } else {
-        // Dados iniciais para exemplo
         const iniciais: Produto[] = [
           {
             id: Date.now().toString(),
@@ -210,14 +209,11 @@ export default function Produtos() {
     return categoria?.nome || cat;
   };
 
-  // Filtrar produtos
   const produtosFiltrados = produtos.filter(produto => {
-    // Filtro por categoria
     if (filtroCategoria !== 'todos' && produto.categoria !== filtroCategoria) {
       return false;
     }
     
-    // Filtro por busca (nome, descrição, código de barras)
     if (busca) {
       const buscaLower = busca.toLowerCase();
       return (
@@ -295,8 +291,10 @@ export default function Produtos() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.header}>
-        <Text style={styles.headerTitulo}>Produtos</Text>
+      <Header title="Produtos" />
+      
+      <View style={styles.actionBar}>
+        <Text style={styles.actionBarTitulo}>Lista de Produtos</Text>
         <TouchableOpacity 
           style={styles.botaoNovo}
           onPress={() => {
@@ -309,7 +307,6 @@ export default function Produtos() {
         </TouchableOpacity>
       </View>
 
-      {/* Barra de busca */}
       <View style={styles.searchContainer}>
         <View style={styles.searchInputContainer}>
           <MaterialIcons name="search" size={20} color={themes.colors.gray} />
@@ -328,7 +325,6 @@ export default function Produtos() {
         </View>
       </View>
 
-      {/* Filtros de categoria */}
       <ScrollView 
         horizontal 
         showsHorizontalScrollIndicator={false}
@@ -396,7 +392,6 @@ export default function Produtos() {
             </View>
 
             <ScrollView showsVerticalScrollIndicator={false}>
-              {/* Nome */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Nome *</Text>
                 <View style={styles.inputContainer}>
@@ -411,7 +406,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Descrição */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Descrição</Text>
                 <View style={[styles.inputContainer, styles.textAreaContainer]}>
@@ -429,7 +423,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Preço e Estoque */}
               <View style={styles.inputRow}>
                 <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
                   <Text style={styles.label}>Preço (R$) *</Text>
@@ -462,7 +455,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Categoria */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Categoria *</Text>
                 <View style={styles.categoriasGrid}>
@@ -487,7 +479,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Código de Barras */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Código de Barras</Text>
                 <View style={styles.inputContainer}>
@@ -502,7 +493,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Fornecedor */}
               <View style={styles.inputGroup}>
                 <Text style={styles.label}>Fornecedor</Text>
                 <View style={styles.inputContainer}>
@@ -517,7 +507,6 @@ export default function Produtos() {
                 </View>
               </View>
 
-              {/* Ativo */}
               <View style={styles.switchContainer}>
                 <Text style={styles.label}>Produto ativo</Text>
                 <Switch
