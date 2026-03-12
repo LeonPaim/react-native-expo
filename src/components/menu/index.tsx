@@ -16,6 +16,11 @@ export default function Menu() {
                 <Text style={styles.menuItem}>Home</Text>
             </TouchableOpacity>
             
+            <TouchableOpacity onPress={() => navigation.navigate("Servicos")} style={styles.menuItemContainer}> {/* ← NOVO ITEM */}
+                <Text style={styles.menuEmoji}>💈</Text>
+                <Text style={styles.menuItem}>Serviços</Text>
+            </TouchableOpacity>
+            
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>🔐</Text>
                 <Text style={styles.menuItem}>Login</Text>
