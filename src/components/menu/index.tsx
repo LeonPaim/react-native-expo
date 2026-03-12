@@ -26,6 +26,11 @@ export default function Menu() {
                 <Text style={styles.menuEmoji}>👥</Text>
                 <Text style={styles.menuItem}>Clientes</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Agendamentos")} style={styles.menuItemContainer}> 
+                <Text style={styles.menuEmoji}>📅</Text>
+                <Text style={styles.menuItem}>Agenda</Text>
+            </TouchableOpacity>
             
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>🔐</Text>
