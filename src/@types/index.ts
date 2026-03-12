@@ -11,6 +11,7 @@ export interface Cliente {
     cidade: string;
     uf: string;
     dataCadastro: string;
+    observacoes: string;
 }
 
 export interface Servico {
@@ -18,8 +19,8 @@ export interface Servico {
     nome: string;
     descricao: string;
     preco: number;
-    duracao: number; // em minutos
-    comissao: number; // percentual
+    duracao: number;
+    comissao: number;
     ativo: boolean;
 }
 

@@ -9,6 +9,7 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Menu() {
     const navigation = useNavigation<NavigationProp>();
+    
     return (
         <View style={styles.menuContainer}>
             <TouchableOpacity onPress={() => navigation.navigate("Home")} style={styles.menuItemContainer}>
@@ -16,9 +17,14 @@ export default function Menu() {
                 <Text style={styles.menuItem}>Home</Text>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={() => navigation.navigate("Servicos")} style={styles.menuItemContainer}> {/* ← NOVO ITEM */}
+            <TouchableOpacity onPress={() => navigation.navigate("Servicos")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>💈</Text>
                 <Text style={styles.menuItem}>Serviços</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigation.navigate("Clientes")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>👥</Text>
+                <Text style={styles.menuItem}>Clientes</Text>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.menuItemContainer}>
