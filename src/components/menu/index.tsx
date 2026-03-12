@@ -9,11 +9,33 @@ type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 export default function Menu() {
     const navigation = useNavigation<NavigationProp>();
+    
     return (
         <View style={styles.menuContainer}>
             <TouchableOpacity onPress={() => navigation.navigate("Home")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>🏠</Text>
                 <Text style={styles.menuItem}>Home</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigation.navigate("Servicos")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>💈</Text>
+                <Text style={styles.menuItem}>Serviços</Text>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigation.navigate("Produtos")} style={styles.menuItemContainer}> 
+                <Text style={styles.menuEmoji}>🛍️</Text>
+                <Text style={styles.menuItem}>Produtos</Text>
+            </TouchableOpacity>
+            
+            
+            <TouchableOpacity onPress={() => navigation.navigate("Clientes")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>👥</Text>
+                <Text style={styles.menuItem}>Clientes</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate("Agendamentos")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>📅</Text>
+                <Text style={styles.menuItem}>Agenda</Text>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.menuItemContainer}>
