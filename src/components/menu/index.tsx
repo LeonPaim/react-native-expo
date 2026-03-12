@@ -22,12 +22,18 @@ export default function Menu() {
                 <Text style={styles.menuItem}>Serviços</Text>
             </TouchableOpacity>
             
+            <TouchableOpacity onPress={() => navigation.navigate("Produtos")} style={styles.menuItemContainer}> 
+                <Text style={styles.menuEmoji}>🛍️</Text>
+                <Text style={styles.menuItem}>Produtos</Text>
+            </TouchableOpacity>
+            
+            
             <TouchableOpacity onPress={() => navigation.navigate("Clientes")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>👥</Text>
                 <Text style={styles.menuItem}>Clientes</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Agendamentos")} style={styles.menuItemContainer}> 
+            <TouchableOpacity onPress={() => navigation.navigate("Agendamentos")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>📅</Text>
                 <Text style={styles.menuItem}>Agenda</Text>
             </TouchableOpacity>

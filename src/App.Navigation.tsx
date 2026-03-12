@@ -6,7 +6,8 @@ import Cadastro from "./pages/cadastro/index";
 import Home from "./pages/home/index";
 import Servicos from "./pages/servicos/index";
 import Clientes from "./pages/clientes/index";
-import Agendamentos from "./pages/agendamentos/index"; 
+import Agendamentos from "./pages/agendamentos/index";
+import Produtos from "./pages/produtos/index";
 import { themes } from "./global/themes";
 
 export type RootStackParamList = {
@@ -15,7 +16,8 @@ export type RootStackParamList = {
     Home: undefined;
     Servicos: undefined;
     Clientes: undefined;
-    Agendamentos: undefined; 
+    Agendamentos: undefined;
+    Produtos: undefined;
 }
 
 const Stack = createStackNavigator<RootStackParamList>();
@@ -35,7 +37,8 @@ export default function AppNavigation() {
                 <Stack.Screen name="Home" component={Home} />
                 <Stack.Screen name="Servicos" component={Servicos} />
                 <Stack.Screen name="Clientes" component={Clientes} />
-                <Stack.Screen name="Agendamentos" component={Agendamentos} /> 
+                <Stack.Screen name="Agendamentos" component={Agendamentos} />
+                <Stack.Screen name="Produtos" component={Produtos} />
             </Stack.Navigator>
         </NavigationContainer>
     );

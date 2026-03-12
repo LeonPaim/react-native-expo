@@ -24,6 +24,19 @@ export interface Servico {
     ativo: boolean;
 }
 
+export interface Produto {
+    id: string;
+    nome: string;
+    descricao: string;
+    preco: number;
+    categoria: 'cabelo' | 'barba' | 'pele' | 'acessorio' | 'kit';
+    estoque: number;
+    codigoBarras?: string;
+    fornecedor?: string;
+    ativo: boolean;
+    dataCadastro: string;
+}
+
 export interface Agendamento {
     id: string;
     clienteId: string;
@@ -35,14 +48,4 @@ export interface Agendamento {
     observacoes: string;
     status: 'agendado' | 'confirmado' | 'cancelado' | 'realizado';
     valor: number;
-}
-
-export interface Contato {
-    id: string;
-    nome: string;
-    telefone: string;
-    email: string;
-    mensagem: string;
-    data: string;
-    lido: boolean;
 }
