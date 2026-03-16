@@ -6,6 +6,30 @@ export const styles = StyleSheet.create({
         flex: 1,
         backgroundColor: themes.colors.beige,
     },
+    header: {
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+    },
+    botaoNovo: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        backgroundColor: themes.colors.primary,
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: 25,
+        gap: 8,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    botaoNovoTexto: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+    },
     content: {
         flex: 1,
         padding: 16,
@@ -59,6 +83,12 @@ export const styles = StyleSheet.create({
         fontWeight: '600',
         color: themes.colors.black,
         flex: 1,
+    },
+    cardTitulo: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: themes.colors.primary,
+        marginBottom: 12,
     },
     statusBadge: {
         paddingHorizontal: 8,
@@ -159,4 +189,106 @@ export const styles = StyleSheet.create({
         color: themes.colors.black,
         fontWeight: '500',
     },
+    servicoNome: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: themes.colors.black,
+        marginBottom: 8,
+    },
+    servicoPreco: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: themes.colors.primary,
+        marginBottom: 4,
+    },
+    servicoDuracao: {
+        fontSize: 14,
+        color: themes.colors.darkGray,
+    },
+    clienteNome: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: themes.colors.black,
+        marginBottom: 4,
+    },
+    clienteTelefone: {
+        fontSize: 14,
+        color: themes.colors.darkGray,
+    },
+    dateButton: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: themes.colors.white,
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        paddingVertical: 12,
+        borderWidth: 1,
+        borderColor: themes.colors.lightGray,
+        gap: 8,
+        marginBottom: 12,
+    },
+    dateButtonText: {
+        fontSize: 16,
+        color: themes.colors.black,
+        flex: 1,
+    },
+    dateButtonPlaceholder: {
+        fontSize: 16,
+        color: themes.colors.gray,
+        flex: 1,
+    },
+    botaoConfirmar: {
+        backgroundColor: themes.colors.primary,
+        borderRadius: 12,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: 8,
+        marginBottom: 24,
+    },
+    botaoConfirmarTexto: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '700',
+    },
+    webDateContainer: {
+        marginBottom: 12,
+    },
+    webDateInput: {
+        backgroundColor: themes.colors.white,
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        height: 50,
+        borderWidth: 1,
+        borderColor: themes.colors.lightGray,
+        fontSize: 16,
+        color: themes.colors.black,
+    },
+
+    // Adicione no final do arquivo, antes do último }
+    botaoDesabilitado: {
+        opacity: 0.5,
+    },
+    modalBotaoCancelar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        padding: 16,
+        marginTop: 20,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#f44336',
+    },
+    modalBotaoCancelarTexto: {
+        color: '#f44336',
+        fontSize: 16,
+        fontWeight: '600',
+    },
+
+
+
+
+
+
 });

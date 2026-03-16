@@ -2,8 +2,12 @@ import React from 'react';
 import { View, Text, TouchableOpacity } from 'react-native';
 import { MaterialIcons } from '@expo/vector-icons';
 import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App.Navigation';
 import { styles } from './styles';
 import { themes } from '../../global/themes';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface HeaderProps {
     title: string;
@@ -12,7 +16,7 @@ interface HeaderProps {
 }
 
 export default function Header({ title, showBack = true, showHome = true }: HeaderProps) {
-    const navigation = useNavigation();
+    const navigation = useNavigation<NavigationProp>();
 
     return (
         <View style={styles.container}>

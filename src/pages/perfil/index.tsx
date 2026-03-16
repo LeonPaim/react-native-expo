@@ -4,9 +4,9 @@ import {
   View,
   TextInput,
   TouchableOpacity,
-  ScrollView,
   Alert,
-  ActivityIndicator
+  ActivityIndicator,
+  ScrollView
 } from 'react-native';
 import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -35,7 +35,6 @@ export default function Perfil({ navigation }: any) {
   const [editando, setEditando] = useState(false);
   const [buscandoCep, setBuscandoCep] = useState(false);
   
-  // Estados do formulário
   const [nome, setNome] = useState('');
   const [telefone, setTelefone] = useState('');
   const [email, setEmail] = useState('');
@@ -54,12 +53,9 @@ export default function Perfil({ navigation }: any) {
 
   const carregarPerfil = async () => {
     try {
-      // Simula carregar o perfil do cliente logado
-      // Em um app real, pegaria o ID do usuário logado
       const dados = await AsyncStorage.getItem('@barbearia:clientes');
       if (dados) {
         const todosClientes = JSON.parse(dados);
-        // Pega o primeiro cliente como exemplo (simulando cliente logado)
         const clienteLogado = todosClientes[0] || null;
         setCliente(clienteLogado);
         
@@ -85,9 +81,7 @@ export default function Perfil({ navigation }: any) {
   const buscarCep = async (cepDigitado: string) => {
     const cepLimpo = cepDigitado.replace(/\D/g, '');
     
-    if (cepLimpo.length !== 8) {
-      return;
-    }
+    if (cepLimpo.length !== 8) return;
 
     setBuscandoCep(true);
 
@@ -107,7 +101,6 @@ export default function Perfil({ navigation }: any) {
 
     } catch (error) {
       Alert.alert('Erro', 'Falha ao buscar CEP');
-      console.log(error);
     } finally {
       setBuscandoCep(false);
     }
@@ -145,7 +138,6 @@ export default function Perfil({ navigation }: any) {
     };
 
     try {
-      // Atualiza no AsyncStorage
       const dados = await AsyncStorage.getItem('@barbearia:clientes');
       if (dados) {
         const todosClientes = JSON.parse(dados);
@@ -160,7 +152,6 @@ export default function Perfil({ navigation }: any) {
         }
       }
     } catch (error) {
-      console.log('Erro ao salvar perfil:', error);
       Alert.alert('Erro', 'Não foi possível salvar as alterações');
     }
   };
@@ -177,19 +168,20 @@ export default function Perfil({ navigation }: any) {
     );
   }
 
-  return (
-    <View style={styles.container}>
-      <Header title="Meu Perfil" />
-      
-      <ScrollView style={styles.content} showsVerticalScrollIndicator={false}>
-        <View style={styles.profileHeader}>
-          <View style={styles.avatarContainer}>
-            <Text style={styles.avatarTexto}>
-              {cliente.nome.charAt(0).toUpperCase()}
-            </Text>
-          </View>
-          
-          {!editando && (
+  // MODO VISUALIZAÇÃO
+  if (!editando) {
+    return (
+      <View style={styles.container}>
+        <Header title="Meu Perfil" />
+        
+        <ScrollView contentContainerStyle={styles.scrollContent}>
+          <View style={styles.profileHeader}>
+            <View style={styles.avatarContainer}>
+              <Text style={styles.avatarTexto}>
+                {cliente.nome.charAt(0).toUpperCase()}
+              </Text>
+            </View>
+            
             <TouchableOpacity 
               style={styles.botaoEditar}
               onPress={() => setEditando(true)}
@@ -197,23 +189,119 @@ export default function Perfil({ navigation }: any) {
               <MaterialIcons name="edit" size={20} color={themes.colors.white} />
               <Text style={styles.botaoEditarTexto}>Editar Perfil</Text>
             </TouchableOpacity>
-          )}
-        </View>
+          </View>
 
-        {editando ? (
-          // MODO EDIÇÃO
-          <View style={styles.formContainer}>
-            <Text style={styles.formTitulo}>Editar Dados</Text>
+          <View style={styles.infoContainer}>
+            <View style={styles.infoSection}>
+              <Text style={styles.sectionTitulo}>Dados Pessoais</Text>
+              
+              <View style={styles.infoItem}>
+                <MaterialIcons name="person" size={18} color={themes.colors.primary} />
+                <View style={styles.infoContent}>
+                  <Text style={styles.infoLabel}>Nome</Text>
+                  <Text style={styles.infoValor}>{cliente.nome}</Text>
+                </View>
+              </View>
 
+              <View style={styles.infoItem}>
+                <MaterialIcons name="phone" size={18} color={themes.colors.primary} />
+                <View style={styles.infoContent}>
+                  <Text style={styles.infoLabel}>Telefone</Text>
+                  <Text style={styles.infoValor}>{cliente.telefone}</Text>
+                </View>
+              </View>
+
+              {cliente.email && (
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="email" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoLabel}>E-mail</Text>
+                    <Text style={styles.infoValor}>{cliente.email}</Text>
+                  </View>
+                </View>
+              )}
+            </View>
+
+            {(cliente.cep || cliente.logradouro) && (
+              <View style={styles.infoSection}>
+                <Text style={styles.sectionTitulo}>Endereço</Text>
+                
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="location-on" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoLabel}>CEP</Text>
+                    <Text style={styles.infoValor}>{cliente.cep || 'Não informado'}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="signpost" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoLabel}>Logradouro</Text>
+                    <Text style={styles.infoValor}>
+                      {cliente.logradouro || 'Não informado'}, {cliente.numero || 's/n'}
+                      {cliente.complemento ? ` - ${cliente.complemento}` : ''}
+                    </Text>
+                  </View>
+                </View>
+
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="map" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoLabel}>Bairro</Text>
+                    <Text style={styles.infoValor}>{cliente.bairro || 'Não informado'}</Text>
+                  </View>
+                </View>
+
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="location-city" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoLabel}>Cidade/UF</Text>
+                    <Text style={styles.infoValor}>
+                      {cliente.cidade || 'Não informada'}/{cliente.uf || ''}
+                    </Text>
+                  </View>
+                </View>
+              </View>
+            )}
+
+            {cliente.observacoes && (
+              <View style={styles.infoSection}>
+                <Text style={styles.sectionTitulo}>Observações</Text>
+                <View style={styles.infoItem}>
+                  <MaterialIcons name="notes" size={18} color={themes.colors.primary} />
+                  <View style={styles.infoContent}>
+                    <Text style={styles.infoValor}>{cliente.observacoes}</Text>
+                  </View>
+                </View>
+              </View>
+            )}
+          </View>
+        </ScrollView>
+      </View>
+    );
+  }
+
+  // MODO EDIÇÃO - AGORA SIM, TUDO NA TELA!
+  return (
+    <View style={styles.container}>
+      <Header title="Editar Perfil" />
+      
+      <View style={styles.editContainer}>
+        <ScrollView 
+          contentContainerStyle={styles.editScrollContent}
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={styles.editForm}>
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Nome *</Text>
               <View style={styles.inputContainer}>
-                <MaterialIcons name="person" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                <MaterialIcons name="person" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={nome}
                   onChangeText={setNome}
-                  placeholder="Seu nome completo"
+                  placeholder="Seu nome"
                   placeholderTextColor={themes.colors.gray}
                 />
               </View>
@@ -222,7 +310,7 @@ export default function Perfil({ navigation }: any) {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>Telefone *</Text>
               <View style={styles.inputContainer}>
-                <MaterialIcons name="phone" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                <MaterialIcons name="phone" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={telefone}
@@ -238,12 +326,12 @@ export default function Perfil({ navigation }: any) {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>E-mail</Text>
               <View style={styles.inputContainer}>
-                <MaterialIcons name="email" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                <MaterialIcons name="email" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={email}
                   onChangeText={setEmail}
-                  placeholder="seu@email.com"
+                  placeholder="email@exemplo.com"
                   placeholderTextColor={themes.colors.gray}
                   keyboardType="email-address"
                   autoCapitalize="none"
@@ -254,7 +342,7 @@ export default function Perfil({ navigation }: any) {
             <View style={styles.inputGroup}>
               <Text style={styles.label}>CEP</Text>
               <View style={styles.inputContainer}>
-                <MaterialIcons name="location-on" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                <MaterialIcons name="location-on" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                 <TextInput
                   style={styles.input}
                   value={cep}
@@ -262,31 +350,27 @@ export default function Perfil({ navigation }: any) {
                     const cepNumeros = text.replace(/\D/g, '');
                     const cepFormatado = cepNumeros.replace(/(\d{5})(\d{3})/, '$1-$2');
                     setCep(cepFormatado);
-                    if (cepNumeros.length === 8) {
-                      buscarCep(cepNumeros);
-                    }
+                    if (cepNumeros.length === 8) buscarCep(cepNumeros);
                   }}
                   placeholder="00000-000"
                   placeholderTextColor={themes.colors.gray}
                   keyboardType="numeric"
                   maxLength={9}
                 />
-                {buscandoCep && (
-                  <ActivityIndicator size="small" color={themes.colors.primary} />
-                )}
+                {buscandoCep && <ActivityIndicator size="small" color={themes.colors.primary} />}
               </View>
             </View>
 
             <View style={styles.inputRow}>
-              <View style={[styles.inputGroup, { flex: 2, marginRight: 8 }]}>
+              <View style={[styles.inputGroup, { flex: 2, marginRight: 6 }]}>
                 <Text style={styles.label}>Logradouro</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="signpost" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="signpost" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={logradouro}
                     onChangeText={setLogradouro}
-                    placeholder="Rua, Av..."
+                    placeholder="Rua"
                     placeholderTextColor={themes.colors.gray}
                   />
                 </View>
@@ -295,7 +379,7 @@ export default function Perfil({ navigation }: any) {
               <View style={[styles.inputGroup, { flex: 1 }]}>
                 <Text style={styles.label}>Número</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="tag" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="tag" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={numero}
@@ -308,15 +392,15 @@ export default function Perfil({ navigation }: any) {
             </View>
 
             <View style={styles.inputRow}>
-              <View style={[styles.inputGroup, { flex: 1, marginRight: 8 }]}>
+              <View style={[styles.inputGroup, { flex: 1, marginRight: 6 }]}>
                 <Text style={styles.label}>Complemento</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="add-circle" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="add-circle" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={complemento}
                     onChangeText={setComplemento}
-                    placeholder="Apto, Sala"
+                    placeholder="Apto"
                     placeholderTextColor={themes.colors.gray}
                   />
                 </View>
@@ -325,7 +409,7 @@ export default function Perfil({ navigation }: any) {
               <View style={[styles.inputGroup, { flex: 1 }]}>
                 <Text style={styles.label}>Bairro</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="map" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="map" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={bairro}
@@ -338,10 +422,10 @@ export default function Perfil({ navigation }: any) {
             </View>
 
             <View style={styles.inputRow}>
-              <View style={[styles.inputGroup, { flex: 3, marginRight: 8 }]}>
+              <View style={[styles.inputGroup, { flex: 3, marginRight: 6 }]}>
                 <Text style={styles.label}>Cidade</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="location-city" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="location-city" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={cidade}
@@ -355,7 +439,7 @@ export default function Perfil({ navigation }: any) {
               <View style={[styles.inputGroup, { flex: 1 }]}>
                 <Text style={styles.label}>UF</Text>
                 <View style={styles.inputContainer}>
-                  <MaterialIcons name="flag" size={20} color={themes.colors.primary} style={styles.inputIcon} />
+                  <MaterialIcons name="flag" size={18} color={themes.colors.primary} style={styles.inputIcon} />
                   <TextInput
                     style={styles.input}
                     value={uf}
@@ -366,6 +450,23 @@ export default function Perfil({ navigation }: any) {
                     autoCapitalize="characters"
                   />
                 </View>
+              </View>
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Observações</Text>
+              <View style={[styles.inputContainer, styles.textAreaContainer]}>
+                <MaterialIcons name="notes" size={18} color={themes.colors.primary} style={styles.inputIcon} />
+                <TextInput
+                  style={[styles.input, styles.textArea]}
+                  value={observacoes}
+                  onChangeText={setObservacoes}
+                  placeholder="Observações..."
+                  placeholderTextColor={themes.colors.gray}
+                  multiline
+                  numberOfLines={2}
+                  textAlignVertical="top"
+                />
               </View>
             </View>
 
@@ -388,96 +489,8 @@ export default function Perfil({ navigation }: any) {
               </TouchableOpacity>
             </View>
           </View>
-        ) : (
-          // MODO VISUALIZAÇÃO
-          <View style={styles.infoContainer}>
-            <View style={styles.infoSection}>
-              <Text style={styles.sectionTitulo}>Dados Pessoais</Text>
-              
-              <View style={styles.infoItem}>
-                <MaterialIcons name="person" size={20} color={themes.colors.primary} />
-                <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>Nome</Text>
-                  <Text style={styles.infoValor}>{cliente.nome}</Text>
-                </View>
-              </View>
-
-              <View style={styles.infoItem}>
-                <MaterialIcons name="phone" size={20} color={themes.colors.primary} />
-                <View style={styles.infoContent}>
-                  <Text style={styles.infoLabel}>Telefone</Text>
-                  <Text style={styles.infoValor}>{cliente.telefone}</Text>
-                </View>
-              </View>
-
-              {cliente.email && (
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="email" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoLabel}>E-mail</Text>
-                    <Text style={styles.infoValor}>{cliente.email}</Text>
-                  </View>
-                </View>
-              )}
-            </View>
-
-            {(cliente.cep || cliente.logradouro) && (
-              <View style={styles.infoSection}>
-                <Text style={styles.sectionTitulo}>Endereço</Text>
-                
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="location-on" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoLabel}>CEP</Text>
-                    <Text style={styles.infoValor}>{cliente.cep || 'Não informado'}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="signpost" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoLabel}>Logradouro</Text>
-                    <Text style={styles.infoValor}>
-                      {cliente.logradouro || 'Não informado'}, {cliente.numero || 's/n'}
-                      {cliente.complemento ? ` - ${cliente.complemento}` : ''}
-                    </Text>
-                  </View>
-                </View>
-
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="map" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoLabel}>Bairro</Text>
-                    <Text style={styles.infoValor}>{cliente.bairro || 'Não informado'}</Text>
-                  </View>
-                </View>
-
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="location-city" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoLabel}>Cidade/UF</Text>
-                    <Text style={styles.infoValor}>
-                      {cliente.cidade || 'Não informada'}/{cliente.uf || ''}
-                    </Text>
-                  </View>
-                </View>
-              </View>
-            )}
-
-            {cliente.observacoes && (
-              <View style={styles.infoSection}>
-                <Text style={styles.sectionTitulo}>Observações</Text>
-                <View style={styles.infoItem}>
-                  <MaterialIcons name="notes" size={20} color={themes.colors.primary} />
-                  <View style={styles.infoContent}>
-                    <Text style={styles.infoValor}>{cliente.observacoes}</Text>
-                  </View>
-                </View>
-              </View>
-            )}
-          </View>
-        )}
-      </ScrollView>
+        </ScrollView>
+      </View>
     </View>
   );
 }
