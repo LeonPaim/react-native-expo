@@ -6,10 +6,10 @@ import Menu from "../../components/menu";
 export default function Home() {
     return (
         <View style={styles.container}>
-            <Menu /> {/* ← Menu com fundo azul */}
+            <Menu />
             <View style={styles.content}>
-                <Text style={styles.welcomeText}>Bem-vindo ao Home!</Text>
-                <Text style={styles.subtitle}>Você está na tela inicial</Text>
+                <Text style={styles.welcomeText}>Olá, Cliente!</Text>
+                <Text style={styles.subtitle}>O que você deseja fazer hoje?</Text>
             </View>
         </View>
     );

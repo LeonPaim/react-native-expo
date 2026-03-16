@@ -1,45 +1,43 @@
-import { StyleSheet } from 'react-native';
+import { StyleSheet, Dimensions } from 'react-native';
 import { themes } from '../../global/themes';
+
+const { width } = Dimensions.get('window');
+const cardWidth = (width - 48) / 2;
 
 export const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: themes.colors.beige,
     },
-    header: {
+    headerCarrinho: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 24,
-        paddingBottom: 16,
-    },
-    headerTitulo: {
-        fontSize: 24,
-        fontWeight: '700',
-        color: themes.colors.black,
-    },
-    botaoNovo: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: themes.colors.primary,
+        justifyContent: 'flex-end',
         paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 25,
-        gap: 8,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 2 },
-        shadowOpacity: 0.1,
-        shadowRadius: 4,
-        elevation: 3,
+        paddingVertical: 8,
     },
-    botaoNovoTexto: {
+    botaoCarrinho: {
+        position: 'relative',
+        padding: 8,
+    },
+    badgeCarrinho: {
+        position: 'absolute',
+        top: 0,
+        right: 0,
+        backgroundColor: '#f44336',
+        borderRadius: 10,
+        minWidth: 18,
+        height: 18,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    badgeTexto: {
         color: themes.colors.white,
-        fontSize: 14,
-        fontWeight: '600',
+        fontSize: 10,
+        fontWeight: '700',
     },
     searchContainer: {
         paddingHorizontal: 16,
-        marginBottom: 16,
+        marginBottom: 12,
     },
     searchInputContainer: {
         flexDirection: 'row',
@@ -94,127 +92,81 @@ export const styles = StyleSheet.create({
     },
     lista: {
         padding: 16,
+        paddingTop: 0,
     },
     listaVazia: {
         alignItems: 'center',
         padding: 40,
+        width: '100%',
     },
     listaVaziaTexto: {
         color: themes.colors.darkGray,
         marginTop: 10,
         fontSize: 16,
+        textAlign: 'center',
     },
     card: {
+        width: cardWidth,
         backgroundColor: themes.colors.white,
         borderRadius: 16,
-        padding: 16,
-        marginBottom: 12,
+        padding: 12,
+        margin: 4,
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 1 },
         shadowOpacity: 0.05,
         shadowRadius: 2,
         elevation: 2,
     },
-    cardInativo: {
-        opacity: 0.7,
-        backgroundColor: themes.colors.lightGray,
-    },
     cardHeader: {
-        marginBottom: 12,
-    },
-    cardTituloContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        marginBottom: 4,
+        marginBottom: 8,
     },
     cardNome: {
-        fontSize: 18,
+        fontSize: 14,
         fontWeight: '600',
         color: themes.colors.black,
         flex: 1,
     },
     cardCategoria: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        gap: 4,
-        marginBottom: 8,
+        backgroundColor: themes.colors.lightBlue,
+        borderRadius: 12,
+        padding: 4,
     },
     categoriaIcon: {
         fontSize: 14,
     },
-    categoriaNome: {
+    cardDescricao: {
         fontSize: 12,
-        color: themes.colors.primary,
-        fontWeight: '500',
+        color: themes.colors.darkGray,
+        marginBottom: 12,
+        height: 32,
     },
-    statusBadge: {
-        paddingHorizontal: 8,
-        paddingVertical: 4,
-        borderRadius: 12,
-        minWidth: 60,
+    cardFooter: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
         alignItems: 'center',
     },
-    statusAtivo: {
-        backgroundColor: '#4CAF50',
+    cardPreco: {
+        fontSize: 16,
+        fontWeight: '700',
+        color: themes.colors.primary,
     },
-    statusInativo: {
-        backgroundColor: '#f44336',
+    botaoComprar: {
+        backgroundColor: themes.colors.primary,
+        borderRadius: 8,
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 4,
     },
-    statusText: {
+    botaoComprarTexto: {
         color: themes.colors.white,
         fontSize: 10,
         fontWeight: '600',
     },
-    cardDescricao: {
-        fontSize: 14,
-        color: themes.colors.darkGray,
-        marginBottom: 12,
-    },
-    cardInfo: {
-        backgroundColor: themes.colors.lightBlue,
-        padding: 12,
-        borderRadius: 12,
-        marginBottom: 16,
-    },
-    infoLinha: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        marginBottom: 6,
-        gap: 8,
-    },
-    infoTexto: {
-        fontSize: 14,
-        color: themes.colors.darkGray,
-        flex: 1,
-    },
-    cardAcoes: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 8,
-    },
-    acaoBotao: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
-        borderRadius: 8,
-        gap: 8,
-    },
-    acaoEditar: {
-        backgroundColor: themes.colors.primary,
-    },
-    acaoExcluir: {
-        backgroundColor: '#f44336',
-    },
-    acaoTexto: {
-        color: themes.colors.white,
-        fontSize: 14,
-        fontWeight: '600',
-    },
-
-    // Modal
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -225,6 +177,9 @@ export const styles = StyleSheet.create({
         borderTopLeftRadius: 24,
         borderTopRightRadius: 24,
         padding: 24,
+        maxHeight: '80%',
+    },
+    modalCarrinhoContent: {
         maxHeight: '90%',
     },
     modalHeader: {
@@ -234,130 +189,185 @@ export const styles = StyleSheet.create({
         marginBottom: 24,
     },
     modalTitulo: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: '700',
         color: themes.colors.black,
     },
-    inputGroup: {
-        marginBottom: 16,
-    },
-    inputRow: {
-        flexDirection: 'row',
-        marginBottom: 16,
-    },
-    label: {
+    modalDescricao: {
         fontSize: 14,
-        fontWeight: '500',
+        color: themes.colors.darkGray,
+        marginBottom: 20,
+        lineHeight: 20,
+    },
+    modalPrecoContainer: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+        paddingVertical: 12,
+        borderTopWidth: 1,
+        borderTopColor: themes.colors.lightGray,
+    },
+    modalPrecoLabel: {
+        fontSize: 16,
+        color: themes.colors.darkGray,
+    },
+    modalPreco: {
+        fontSize: 24,
+        fontWeight: '700',
+        color: themes.colors.primary,
+    },
+    quantidadeContainer: {
+        marginBottom: 20,
+    },
+    quantidadeLabel: {
+        fontSize: 14,
         color: themes.colors.darkGray,
         marginBottom: 8,
-        marginLeft: 4,
     },
-    inputContainer: {
+    quantidadeControls: {
         flexDirection: 'row',
         alignItems: 'center',
-        backgroundColor: themes.colors.white,
-        borderRadius: 12,
-        paddingHorizontal: 16,
-        height: 50,
-        borderWidth: 1,
-        borderColor: themes.colors.lightGray,
+        justifyContent: 'center',
+        gap: 20,
     },
-    inputIcon: {
-        marginRight: 12,
-    },
-    input: {
-        flex: 1,
-        fontSize: 16,
-        color: themes.colors.black,
-        height: '100%',
-    },
-    textAreaContainer: {
-        height: 'auto',
-        minHeight: 100,
-        paddingVertical: 12,
-    },
-    textArea: {
-        height: 'auto',
-        textAlignVertical: 'top',
-    },
-    categoriasGrid: {
-        flexDirection: 'row',
-        flexWrap: 'wrap',
-        gap: 8,
-    },
-    categoriaOption: {
-        flexDirection: 'row',
-        alignItems: 'center',
-        backgroundColor: themes.colors.white,
-        paddingHorizontal: 16,
-        paddingVertical: 10,
-        borderRadius: 25,
-        borderWidth: 1,
-        borderColor: themes.colors.lightGray,
-        gap: 6,
-        minWidth: 100,
-    },
-    categoriaOptionAtivo: {
-        backgroundColor: themes.colors.primary,
-        borderColor: themes.colors.primary,
-    },
-    categoriaOptionIcon: {
-        fontSize: 16,
-    },
-    categoriaOptionText: {
-        fontSize: 14,
-        color: themes.colors.darkGray,
-    },
-    categoriaOptionTextAtivo: {
-        color: themes.colors.white,
-        fontWeight: '600',
-    },
-    switchContainer: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: 24,
-        paddingHorizontal: 4,
-    },
-    botaoSalvar: {
-        backgroundColor: themes.colors.primary,
-        borderRadius: 12,
-        height: 50,
+    quantidadeButton: {
+        width: 40,
+        height: 40,
+        borderRadius: 20,
+        backgroundColor: themes.colors.lightBlue,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: 8,
-        marginBottom: 24,
     },
-    botaoSalvarTexto: {
-        color: themes.colors.white,
-        fontSize: 16,
-        fontWeight: '700',
+    quantidadeValor: {
+        fontSize: 20,
+        fontWeight: '600',
+        color: themes.colors.black,
+        minWidth: 40,
+        textAlign: 'center',
     },
-
-
-    
-    actionBar: {
+    modalTotal: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
-        paddingHorizontal: 16,
+        marginBottom: 20,
         paddingVertical: 12,
-        backgroundColor: themes.colors.beige,
+        borderTopWidth: 1,
+        borderTopColor: themes.colors.lightGray,
     },
-    actionBarTitulo: {
-        fontSize: 18,
+    modalTotalLabel: {
+        fontSize: 16,
         fontWeight: '600',
         color: themes.colors.black,
     },
-    listaVazia: {
+    modalTotalValor: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: themes.colors.primary,
+    },
+    botaoAdicionar: {
+        backgroundColor: themes.colors.primary,
+        borderRadius: 12,
+        height: 50,
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+    },
+    botaoAdicionarTexto: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    carrinhoVazio: {
         alignItems: 'center',
         padding: 40,
     },
-    listaVaziaTexto: {
+    carrinhoVazioTexto: {
         color: themes.colors.darkGray,
         marginTop: 10,
         fontSize: 16,
     },
-
-
+    carrinhoLista: {
+        maxHeight: 300,
+    },
+    carrinhoItem: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        paddingVertical: 12,
+        borderBottomWidth: 1,
+        borderBottomColor: themes.colors.lightGray,
+    },
+    carrinhoItemInfo: {
+        flex: 1,
+    },
+    carrinhoItemNome: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: themes.colors.black,
+        marginBottom: 2,
+    },
+    carrinhoItemDetalhe: {
+        fontSize: 12,
+        color: themes.colors.gray,
+        marginBottom: 2,
+    },
+    carrinhoItemTotal: {
+        fontSize: 14,
+        fontWeight: '600',
+        color: themes.colors.primary,
+    },
+    carrinhoFooter: {
+        marginTop: 20,
+        paddingTop: 20,
+        borderTopWidth: 2,
+        borderTopColor: themes.colors.primary,
+    },
+    carrinhoTotal: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 20,
+    },
+    carrinhoTotalLabel: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: themes.colors.black,
+    },
+    carrinhoTotalValor: {
+        fontSize: 20,
+        fontWeight: '700',
+        color: themes.colors.primary,
+    },
+    carrinhoAcoes: {
+        flexDirection: 'row',
+        gap: 12,
+    },
+    botaoLimpar: {
+        flex: 1,
+        backgroundColor: themes.colors.lightGray,
+        borderRadius: 12,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    botaoLimparTexto: {
+        color: themes.colors.darkGray,
+        fontSize: 14,
+        fontWeight: '600',
+    },
+    botaoFinalizar: {
+        flex: 2,
+        backgroundColor: themes.colors.primary,
+        borderRadius: 12,
+        height: 45,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    botaoFinalizarTexto: {
+        color: themes.colors.white,
+        fontSize: 14,
+        fontWeight: '600',
+    },
 });

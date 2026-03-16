@@ -21,31 +21,30 @@ export default function Menu() {
                 <Text style={styles.menuEmoji}>💈</Text>
                 <Text style={styles.menuItem}>Serviços</Text>
             </TouchableOpacity>
-            
-            <TouchableOpacity onPress={() => navigation.navigate("Produtos")} style={styles.menuItemContainer}> 
+
+            <TouchableOpacity onPress={() => navigation.navigate("Produtos")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>🛍️</Text>
                 <Text style={styles.menuItem}>Produtos</Text>
             </TouchableOpacity>
+
+            <TouchableOpacity onPress={() => navigation.navigate("MeusAgendamentos")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>📅</Text>
+                <Text style={styles.menuItem}>Agendamentos</Text>
+            </TouchableOpacity>
             
-            
-            <TouchableOpacity onPress={() => navigation.navigate("Clientes")} style={styles.menuItemContainer}>
-                <Text style={styles.menuEmoji}>👥</Text>
-                <Text style={styles.menuItem}>Clientes</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Perfil")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>👤</Text>
+                <Text style={styles.menuItem}>Meu Perfil</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity onPress={() => navigation.navigate("Agendamentos")} style={styles.menuItemContainer}>
-                <Text style={styles.menuEmoji}>📅</Text>
-                <Text style={styles.menuItem}>Agenda</Text>
+            <TouchableOpacity onPress={() => navigation.navigate("Contato")} style={styles.menuItemContainer}>
+                <Text style={styles.menuEmoji}>📞</Text>
+                <Text style={styles.menuItem}>Fale Conosco</Text>
             </TouchableOpacity>
             
             <TouchableOpacity onPress={() => navigation.navigate("Login")} style={styles.menuItemContainer}>
                 <Text style={styles.menuEmoji}>🔐</Text>
-                <Text style={styles.menuItem}>Login</Text>
-            </TouchableOpacity>
-            
-            <TouchableOpacity onPress={() => navigation.navigate("Cadastro")} style={styles.menuItemContainer}>
-                <Text style={styles.menuEmoji}>📝</Text>
-                <Text style={styles.menuItem}>Cadastro</Text>
+                <Text style={styles.menuItem}>Sair</Text>
             </TouchableOpacity>
         </View>
     );

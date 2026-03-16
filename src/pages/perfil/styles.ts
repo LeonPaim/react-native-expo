@@ -1,0 +1,177 @@
+import { StyleSheet } from 'react-native';
+import { themes } from '../../global/themes';
+
+export const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: themes.colors.beige,
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingTexto: {
+        marginTop: 10,
+        fontSize: 16,
+        color: themes.colors.darkGray,
+    },
+    content: {
+        flex: 1,
+        padding: 16,
+    },
+    profileHeader: {
+        alignItems: 'center',
+        marginBottom: 24,
+    },
+    avatarContainer: {
+        width: 100,
+        height: 100,
+        borderRadius: 50,
+        backgroundColor: themes.colors.primary,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginBottom: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.1,
+        shadowRadius: 4,
+        elevation: 3,
+    },
+    avatarTexto: {
+        fontSize: 40,
+        fontWeight: '700',
+        color: themes.colors.white,
+    },
+    botaoEditar: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: themes.colors.primary,
+        paddingHorizontal: 20,
+        paddingVertical: 10,
+        borderRadius: 25,
+        gap: 8,
+    },
+    botaoEditarTexto: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    formContainer: {
+        backgroundColor: themes.colors.white,
+        borderRadius: 16,
+        padding: 16,
+        marginBottom: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 2,
+    },
+    formTitulo: {
+        fontSize: 18,
+        fontWeight: '700',
+        color: themes.colors.black,
+        marginBottom: 16,
+    },
+    inputGroup: {
+        marginBottom: 16,
+    },
+    inputRow: {
+        flexDirection: 'row',
+        marginBottom: 16,
+    },
+    label: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: themes.colors.darkGray,
+        marginBottom: 8,
+        marginLeft: 4,
+    },
+    inputContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        backgroundColor: themes.colors.white,
+        borderRadius: 12,
+        paddingHorizontal: 16,
+        height: 50,
+        borderWidth: 1,
+        borderColor: themes.colors.lightGray,
+    },
+    inputIcon: {
+        marginRight: 12,
+    },
+    input: {
+        flex: 1,
+        fontSize: 16,
+        color: themes.colors.black,
+        height: '100%',
+    },
+    buttonContainer: {
+        flexDirection: 'row',
+        gap: 12,
+        marginTop: 8,
+    },
+    botaoCancelar: {
+        flex: 1,
+        backgroundColor: themes.colors.lightGray,
+        borderRadius: 12,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    botaoCancelarTexto: {
+        color: themes.colors.darkGray,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    botaoSalvar: {
+        flex: 1,
+        backgroundColor: themes.colors.primary,
+        borderRadius: 12,
+        height: 50,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    botaoSalvarTexto: {
+        color: themes.colors.white,
+        fontSize: 16,
+        fontWeight: '600',
+    },
+    infoContainer: {
+        gap: 16,
+    },
+    infoSection: {
+        backgroundColor: themes.colors.white,
+        borderRadius: 16,
+        padding: 16,
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 1 },
+        shadowOpacity: 0.05,
+        shadowRadius: 2,
+        elevation: 2,
+    },
+    sectionTitulo: {
+        fontSize: 16,
+        fontWeight: '600',
+        color: themes.colors.black,
+        marginBottom: 12,
+    },
+    infoItem: {
+        flexDirection: 'row',
+        marginBottom: 12,
+        gap: 12,
+    },
+    infoContent: {
+        flex: 1,
+    },
+    infoLabel: {
+        fontSize: 12,
+        color: themes.colors.gray,
+        marginBottom: 2,
+    },
+    infoValor: {
+        fontSize: 14,
+        color: themes.colors.black,
+    },
+});
