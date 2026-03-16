@@ -4,7 +4,6 @@ import {
   View,
   TouchableOpacity,
   FlatList,
-  Alert,
   SafeAreaView
 } from 'react-native';
 import { styles } from './styles';
@@ -12,6 +11,11 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../components/header';
+import { useNavigation } from '@react-navigation/native';
+import { NativeStackNavigationProp } from '@react-navigation/native-stack';
+import { RootStackParamList } from '../../App.Navigation';
+
+type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
 
 interface Servico {
     id: string;
@@ -22,8 +26,9 @@ interface Servico {
     ativo: boolean;
 }
 
-export default function Servicos({ navigation }: any) {
+export default function Servicos() {
   const [servicos, setServicos] = useState<Servico[]>([]);
+  const navigation = useNavigation<NavigationProp>();
 
   useEffect(() => {
     carregarServicos();
@@ -43,7 +48,11 @@ export default function Servicos({ navigation }: any) {
   };
 
   const handleAgendar = (servico: Servico) => {
-    navigation.navigate('Agendamentos', { servicoSelecionado: servico });
+    // CORREÇÃO: Navegação correta para tela aninhada
+    navigation.navigate('MeusAgendamentos', {
+      screen: 'NovoAgendamento',
+      params: { servicoSelecionado: servico }
+    } as any); // ← Adicionado 'as any' para resolver o erro de tipagem
   };
 
   const renderServico = ({ item }: { item: Servico }) => (
