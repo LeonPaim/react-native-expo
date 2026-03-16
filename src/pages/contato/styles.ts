@@ -7,23 +7,16 @@ export const styles = StyleSheet.create({
         backgroundColor: themes.colors.beige,
     },
     header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        padding: 24,
-        paddingBottom: 16,
+        padding: 16,
+        paddingTop: 0,
     },
-    headerTitulo: {
-        fontSize: 24,
-        fontWeight: '700',
-        color: themes.colors.black,
-    },
-    botaoNovo: {
+    botaoNovaMensagem: {
         flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
         backgroundColor: themes.colors.primary,
-        paddingHorizontal: 16,
-        paddingVertical: 10,
+        paddingHorizontal: 20,
+        paddingVertical: 12,
         borderRadius: 25,
         gap: 8,
         shadowColor: '#000',
@@ -32,13 +25,23 @@ export const styles = StyleSheet.create({
         shadowRadius: 4,
         elevation: 3,
     },
-    botaoNovoTexto: {
+    botaoNovaMensagemTexto: {
         color: themes.colors.white,
-        fontSize: 14,
+        fontSize: 16,
         fontWeight: '600',
     },
+    content: {
+        flex: 1,
+        paddingHorizontal: 16,
+    },
+    subTitulo: {
+        fontSize: 18,
+        fontWeight: '600',
+        color: themes.colors.black,
+        marginBottom: 16,
+    },
     lista: {
-        padding: 16,
+        paddingBottom: 16,
     },
     listaVazia: {
         alignItems: 'center',
@@ -48,6 +51,19 @@ export const styles = StyleSheet.create({
         color: themes.colors.darkGray,
         marginTop: 10,
         fontSize: 16,
+        textAlign: 'center',
+    },
+    botaoIniciar: {
+        backgroundColor: themes.colors.primary,
+        paddingHorizontal: 20,
+        paddingVertical: 12,
+        borderRadius: 25,
+        marginTop: 20,
+    },
+    botaoIniciarTexto: {
+        color: themes.colors.white,
+        fontSize: 14,
+        fontWeight: '600',
     },
     card: {
         backgroundColor: themes.colors.white,
@@ -60,68 +76,61 @@ export const styles = StyleSheet.create({
         shadowRadius: 2,
         elevation: 2,
     },
-    cardHeader: {
-        marginBottom: 12,
+    cardNaoLido: {
+        borderLeftWidth: 4,
+        borderLeftColor: themes.colors.primary,
     },
-    cardTituloContainer: {
+    cardHeader: {
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
+        marginBottom: 8,
+    },
+    cardTituloContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        gap: 8,
+        flex: 1,
     },
     cardNome: {
-        fontSize: 18,
+        fontSize: 16,
         fontWeight: '600',
         color: themes.colors.black,
-        flex: 1,
+    },
+    naoLidoBadge: {
+        width: 8,
+        height: 8,
+        borderRadius: 4,
+        backgroundColor: themes.colors.primary,
     },
     cardData: {
         fontSize: 12,
         color: themes.colors.gray,
     },
-    cardInfo: {
-        marginBottom: 16,
+    cardAssunto: {
+        fontSize: 14,
+        fontWeight: '500',
+        color: themes.colors.primary,
+        marginBottom: 4,
     },
-    infoLinha: {
+    cardMensagem: {
+        fontSize: 14,
+        color: themes.colors.darkGray,
+        marginBottom: 8,
+    },
+    cardResposta: {
         flexDirection: 'row',
         alignItems: 'center',
-        marginBottom: 6,
-        gap: 8,
+        gap: 4,
+        backgroundColor: themes.colors.lightBlue,
+        padding: 8,
+        borderRadius: 8,
     },
-    infoTexto: {
-        fontSize: 14,
+    cardRespostaTexto: {
+        fontSize: 12,
         color: themes.colors.darkGray,
         flex: 1,
     },
-    cardAcoes: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        gap: 8,
-        borderTopWidth: 1,
-        borderTopColor: themes.colors.lightGray,
-        paddingTop: 12,
-    },
-    acaoBotao: {
-        flex: 1,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'center',
-        padding: 10,
-        borderRadius: 8,
-        gap: 8,
-    },
-    acaoEditar: {
-        backgroundColor: themes.colors.primary,
-    },
-    acaoExcluir: {
-        backgroundColor: '#f44336',
-    },
-    acaoTexto: {
-        color: themes.colors.white,
-        fontSize: 14,
-        fontWeight: '600',
-    },
-
-    // Modal
     modalOverlay: {
         flex: 1,
         backgroundColor: 'rgba(0, 0, 0, 0.5)',
@@ -141,7 +150,7 @@ export const styles = StyleSheet.create({
         marginBottom: 24,
     },
     modalTitulo: {
-        fontSize: 22,
+        fontSize: 20,
         fontWeight: '700',
         color: themes.colors.black,
     },
@@ -180,25 +189,72 @@ export const styles = StyleSheet.create({
     },
     textAreaContainer: {
         height: 'auto',
-        minHeight: 100,
+        minHeight: 120,
         paddingVertical: 12,
     },
     textArea: {
         height: 'auto',
         textAlignVertical: 'top',
     },
-    botaoSalvar: {
+    botaoEnviar: {
         backgroundColor: themes.colors.primary,
         borderRadius: 12,
         height: 50,
-        justifyContent: 'center',
+        flexDirection: 'row',
         alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
         marginTop: 8,
         marginBottom: 24,
     },
-    botaoSalvarTexto: {
+    botaoEnviarTexto: {
         color: themes.colors.white,
         fontSize: 16,
-        fontWeight: '700',
+        fontWeight: '600',
+    },
+    detalheContainer: {
+        gap: 16,
+    },
+    detalheItem: {
+        flexDirection: 'row',
+        gap: 12,
+        paddingVertical: 8,
+        borderBottomWidth: 1,
+        borderBottomColor: themes.colors.lightGray,
+    },
+    detalheResposta: {
+        backgroundColor: themes.colors.lightBlue,
+        padding: 12,
+        borderRadius: 8,
+        borderBottomWidth: 0,
+    },
+    detalheContent: {
+        flex: 1,
+    },
+    detalheLabel: {
+        fontSize: 12,
+        color: themes.colors.gray,
+        marginBottom: 2,
+    },
+    detalheValor: {
+        fontSize: 14,
+        color: themes.colors.black,
+    },
+    botaoExcluir: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap: 8,
+        padding: 16,
+        marginTop: 20,
+        marginBottom: 24,
+        borderRadius: 12,
+        borderWidth: 1,
+        borderColor: '#f44336',
+    },
+    botaoExcluirTexto: {
+        color: '#f44336',
+        fontSize: 16,
+        fontWeight: '600',
     },
 });
