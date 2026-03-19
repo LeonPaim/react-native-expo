@@ -3,8 +3,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  FlatList,
-  SafeAreaView
+  SafeAreaView,
+  ScrollView
 } from 'react-native';
 import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
@@ -12,101 +12,93 @@ import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../components/header';
 import { useNavigation } from '@react-navigation/native';
-import { NativeStackNavigationProp } from '@react-navigation/native-stack';
-import { RootStackParamList } from '../../App.Navigation';
-
-type NavigationProp = NativeStackNavigationProp<RootStackParamList>;
-
-interface Servico {
-    id: string;
-    nome: string;
-    descricao: string;
-    preco: number;
-    duracao: number;
-    ativo: boolean;
-}
 
 export default function Servicos() {
-  const [servicos, setServicos] = useState<Servico[]>([]);
-  const navigation = useNavigation<NavigationProp>();
+  const navigation = useNavigation();
 
-  useEffect(() => {
-    carregarServicos();
-  }, []);
+  // Lista fixa de serviços
+  const servicos = [
+    { 
+      id: '1', 
+      nome: 'Corte Masculino', 
+      descricao: 'Corte masculino tradicional', 
+      preco: 45, 
+      duracao: 30
+    },
+    { 
+      id: '2', 
+      nome: 'Barba Navalhada', 
+      descricao: 'Barba feita com navalha', 
+      preco: 35, 
+      duracao: 20
+    },
+    { 
+      id: '3', 
+      nome: 'Corte Infantil', 
+      descricao: 'Corte para crianças até 10 anos', 
+      preco: 30, 
+      duracao: 25
+    },
+    { 
+      id: '4', 
+      nome: 'Sobrancelha', 
+      descricao: 'Design de sobrancelha', 
+      preco: 20, 
+      duracao: 15
+    },
+    
+  ];
 
-  const carregarServicos = async () => {
-    try {
-      const dados = await AsyncStorage.getItem('@barbearia:servicos');
-      if (dados) {
-        const todosServicos = JSON.parse(dados);
-        const servicosAtivos = todosServicos.filter((s: Servico) => s.ativo);
-        setServicos(servicosAtivos);
-      }
-    } catch (error) {
-      console.log('Erro ao carregar serviços:', error);
-    }
-  };
-
-  const handleAgendar = (servico: Servico) => {
-    // CORREÇÃO: Navegação correta para tela aninhada
-    navigation.navigate('MeusAgendamentos', {
+  const handleAgendar = (servico: any) => {
+    (navigation as any).navigate('MeusAgendamentos', {
       screen: 'NovoAgendamento',
       params: { servicoSelecionado: servico }
-    } as any); // ← Adicionado 'as any' para resolver o erro de tipagem
+    });
   };
-
-  const renderServico = ({ item }: { item: Servico }) => (
-    <View style={styles.card}>
-      <View style={styles.cardHeader}>
-        <Text style={styles.cardNome}>{item.nome}</Text>
-        <View style={styles.cardPreco}>
-          <Text style={styles.precoTexto}>R$ {item.preco.toFixed(2)}</Text>
-        </View>
-      </View>
-      
-      <Text style={styles.cardDescricao}>{item.descricao}</Text>
-      
-      <View style={styles.cardDetalhes}>
-        <View style={styles.detalheItem}>
-          <MaterialIcons name="access-time" size={16} color={themes.colors.primary} />
-          <Text style={styles.detalheTexto}>{item.duracao} min</Text>
-        </View>
-      </View>
-      
-      <TouchableOpacity 
-        style={styles.botaoAgendar}
-        onPress={() => handleAgendar(item)}
-        activeOpacity={0.8}
-      >
-        <Text style={styles.botaoAgendarTexto}>Agendar</Text>
-        <MaterialIcons name="arrow-forward" size={20} color={themes.colors.white} />
-      </TouchableOpacity>
-    </View>
-  );
 
   return (
     <SafeAreaView style={styles.container}>
       <Header title="Serviços" />
       
-      <View style={styles.content}>
-        <Text style={styles.subTitulo}>Nossos serviços</Text>
-        
-        <FlatList
-          data={servicos}
-          keyExtractor={(item) => item.id}
-          renderItem={renderServico}
-          contentContainerStyle={styles.lista}
-          showsVerticalScrollIndicator={false}
-          ListEmptyComponent={
-            <View style={styles.listaVazia}>
-              <MaterialIcons name="content-cut" size={60} color={themes.colors.lightGray} />
-              <Text style={styles.listaVaziaTexto}>
-                Nenhum serviço disponível no momento
-              </Text>
+      <ScrollView 
+        style={styles.scrollView}
+        contentContainerStyle={styles.scrollViewContent}
+        showsVerticalScrollIndicator={true}
+      >
+        {/* APENAS TODOS OS SERVIÇOS - SEM DESTAQUES */}
+        <View style={styles.section}>
+          <Text style={styles.sectionTitle}>📋 Todos os serviços</Text>
+          
+          {servicos.map((servico) => (
+            <View key={servico.id} style={styles.card}>
+              <View style={styles.cardHeader}>
+                <Text style={styles.cardNome}>{servico.nome}</Text>
+                <View style={styles.cardPreco}>
+                  <Text style={styles.precoTexto}>R$ {servico.preco}</Text>
+                </View>
+              </View>
+              
+              <Text style={styles.cardDescricao}>{servico.descricao}</Text>
+              
+              <View style={styles.cardDetalhes}>
+                <MaterialIcons name="access-time" size={16} color={themes.colors.primary} />
+                <Text style={styles.detalheTexto}>{servico.duracao} min</Text>
+              </View>
+              
+              <TouchableOpacity 
+                style={styles.botaoAgendar}
+                onPress={() => handleAgendar(servico)}
+              >
+                <Text style={styles.botaoAgendarTexto}>Agendar</Text>
+                <MaterialIcons name="arrow-forward" size={20} color={themes.colors.white} />
+              </TouchableOpacity>
             </View>
-          }
-        />
-      </View>
+          ))}
+        </View>
+        
+        {/* Espaço extra no final */}
+        <View style={styles.rodape} />
+      </ScrollView>
     </SafeAreaView>
   );
 }

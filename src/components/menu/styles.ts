@@ -5,7 +5,7 @@ export const styles = StyleSheet.create({
     menuContainer: {
         flexDirection: "row",
         justifyContent: "space-around",
-        backgroundColor: "#97C3E6", // ← Azul claro (usei secondary do themes)
+        backgroundColor: themes.colors.secondary,
         paddingVertical: 12,
         paddingHorizontal: 16,
         borderBottomWidth: 1,

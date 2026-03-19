@@ -15,6 +15,8 @@ import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import { NativeStackScreenProps } from '@react-navigation/native-stack';
 import { RootStackParamList } from '../../App.Navigation';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { Cliente } from '../../@types';
 
 type Props = NativeStackScreenProps<RootStackParamList, 'Cadastro'>;
 
@@ -41,22 +43,67 @@ export default function Cadastro({ navigation }: Props) {
             setTimeout(() => setErrorMessage(""), 3000);
             return;
         }
+
+        if (!email.includes('@') || !email.includes('.')) {
+            setErrorMessage("E-mail inválido");
+            setTimeout(() => setErrorMessage(""), 3000);
+            return;
+        }
         
-        Alert.alert(
-          "Sucesso", 
-          "Cadastro realizado com sucesso!",
-          [
-            { 
-              text: "OK", 
-              onPress: () => navigation.navigate("Login")
+        if (senha.length < 6) {
+            setErrorMessage("A senha deve ter pelo menos 6 caracteres");
+            setTimeout(() => setErrorMessage(""), 3000);
+            return;
+        }
+
+        // Criar novo cliente
+        const novoCliente: Cliente = {
+            id: Date.now().toString(),
+            nome,
+            email,
+            telefone: '',
+            cep: '',
+            logradouro: '',
+            numero: '',
+            complemento: '',
+            bairro: '',
+            cidade: '',
+            uf: '',
+            dataCadastro: new Date().toISOString(),
+            observacoes: ''
+        };
+
+        // Salvar no AsyncStorage
+        AsyncStorage.getItem('@barbearia:clientes').then(dados => {
+            const clientes = dados ? JSON.parse(dados) : [];
+            
+            // Verificar se email já existe
+            const emailExiste = clientes.some((c: Cliente) => c.email === email);
+            if (emailExiste) {
+                setErrorMessage("Este e-mail já está cadastrado");
+                setTimeout(() => setErrorMessage(""), 3000);
+                return;
             }
-          ]
-        );
+
+            clientes.push(novoCliente);
+            AsyncStorage.setItem('@barbearia:clientes', JSON.stringify(clientes));
+            
+            Alert.alert(
+                "Sucesso", 
+                "Cadastro realizado com sucesso!",
+                [
+                    { 
+                        text: "OK", 
+                        onPress: () => navigation.navigate("Login")
+                    }
+                ]
+            );
+        });
         
         setCadastroSuccess(true);
         
         setTimeout(() => {
-          setCadastroSuccess(false);
+            setCadastroSuccess(false);
         }, 3000);
         
     } catch (error) {
