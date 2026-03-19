@@ -97,7 +97,7 @@ export default function Home() {
       nome: 'Kit Sobrancelha',
       descricao: 'Design e pigmentação',
       preco: 'R$ 25,00',
-      icon: 'eyeglasses'
+      icon: 'spa'
     }
   ];
 
