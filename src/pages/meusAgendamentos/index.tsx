@@ -7,18 +7,16 @@ import {
   Alert,
   Modal,
   ScrollView,
-  Platform,
-  TextInput
+  Platform
 } from 'react-native';
 import { styles } from './styles';
 import { MaterialIcons } from '@expo/vector-icons';
 import { themes } from '../../global/themes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Header from '../../components/header';
-import { createStackNavigator } from '@react-navigation/stack'; // ← CORRETO!
-import { useNavigation } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-// Importação condicional do DateTimePicker (só para mobile)
+// Importação condicional do DateTimePicker
 let DateTimePicker: any = null;
 if (Platform.OS !== 'web') {
   DateTimePicker = require('@react-native-community/datetimepicker').default;
@@ -50,58 +48,6 @@ interface Agendamento {
     observacoes: string;
     status: 'agendado' | 'confirmado' | 'cancelado' | 'realizado';
     valor: number;
-}
-
-// Componente de seleção de data para Web
-function WebDatePicker({ value, onChange, mode }: any) {
-  const [dateStr, setDateStr] = useState(
-    value ? value.toISOString().split('T')[0] : ''
-  );
-  const [timeStr, setTimeStr] = useState(
-    value ? `${value.getHours().toString().padStart(2, '0')}:${value.getMinutes().toString().padStart(2, '0')}` : ''
-  );
-
-  const handleDateChange = (text: string) => {
-    setDateStr(text);
-    if (text && timeStr) {
-      const [ano, mes, dia] = text.split('-').map(Number);
-      const [hora, minuto] = timeStr.split(':').map(Number);
-      const newDate = new Date(ano, mes - 1, dia, hora, minuto);
-      onChange(null, newDate);
-    }
-  };
-
-  const handleTimeChange = (text: string) => {
-    setTimeStr(text);
-    if (dateStr && text) {
-      const [ano, mes, dia] = dateStr.split('-').map(Number);
-      const [hora, minuto] = text.split(':').map(Number);
-      const newDate = new Date(ano, mes - 1, dia, hora, minuto);
-      onChange(null, newDate);
-    }
-  };
-
-  return (
-    <View style={styles.webDateContainer}>
-      {mode === 'date' ? (
-        <TextInput
-          style={styles.webDateInput}
-          value={dateStr}
-          onChangeText={handleDateChange}
-          placeholder="AAAA-MM-DD"
-          placeholderTextColor={themes.colors.gray}
-        />
-      ) : (
-        <TextInput
-          style={styles.webDateInput}
-          value={timeStr}
-          onChangeText={handleTimeChange}
-          placeholder="HH:MM"
-          placeholderTextColor={themes.colors.gray}
-        />
-      )}
-    </View>
-  );
 }
 
 // Tela de Novo Agendamento
@@ -172,26 +118,7 @@ function NovoAgendamento({ navigation, route }: any) {
     }
   };
 
-  const handleWebDateChange = (event: any, date?: Date) => {
-    if (date) {
-      setSelectedDate(date);
-      const dia = date.getDate().toString().padStart(2, '0');
-      const mes = (date.getMonth() + 1).toString().padStart(2, '0');
-      const ano = date.getFullYear();
-      setData(`${ano}-${mes}-${dia}`);
-    }
-  };
-
-  const handleWebTimeChange = (event: any, time?: Date) => {
-    if (time) {
-      const horas = time.getHours().toString().padStart(2, '0');
-      const minutos = time.getMinutes().toString().padStart(2, '0');
-      setHora(`${horas}:${minutos}`);
-    }
-  };
-
   const handleConfirmar = async () => {
-    // Validações
     if (!servicoSelecionado) {
       Alert.alert('Erro', 'Serviço não selecionado');
       return;
@@ -210,7 +137,6 @@ function NovoAgendamento({ navigation, route }: any) {
     setLoading(true);
 
     try {
-      // Cria o novo agendamento
       const novoAgendamento: Agendamento = {
         id: Date.now().toString(),
         clienteId: cliente.id,
@@ -224,23 +150,18 @@ function NovoAgendamento({ navigation, route }: any) {
         valor: servicoSelecionado.preco
       };
 
-      // Carrega agendamentos existentes
       const dados = await AsyncStorage.getItem('@barbearia:agendamentos');
       const agendamentos = dados ? JSON.parse(dados) : [];
-      
-      // Adiciona o novo agendamento
       const novosAgendamentos = [...agendamentos, novoAgendamento];
       
-      // Salva no AsyncStorage
       await AsyncStorage.setItem('@barbearia:agendamentos', JSON.stringify(novosAgendamentos));
       
       setLoading(false);
       
-      // Mostra mensagem de sucesso e volta
       Alert.alert(
         'Sucesso!',
         'Agendamento realizado com sucesso',
-        [{ text: 'OK', onPress: () => navigation.goBack() }]
+        [{ text: 'OK', onPress: () => navigation.navigate('ListaAgendamentos') }]
       );
     } catch (error) {
       setLoading(false);
@@ -290,42 +211,25 @@ function NovoAgendamento({ navigation, route }: any) {
         <View style={styles.card}>
           <Text style={styles.cardTitulo}>Data e Hora</Text>
           
-          {Platform.OS === 'web' ? (
-            <>
-              <WebDatePicker
-                value={selectedDate}
-                mode="date"
-                onChange={handleWebDateChange}
-              />
-              <WebDatePicker
-                value={selectedDate}
-                mode="time"
-                onChange={handleWebTimeChange}
-              />
-            </>
-          ) : (
-            <>
-              <TouchableOpacity 
-                style={styles.dateButton}
-                onPress={() => setShowDatePicker(true)}
-              >
-                <MaterialIcons name="event" size={20} color={themes.colors.primary} />
-                <Text style={data ? styles.dateButtonText : styles.dateButtonPlaceholder}>
-                  {data ? data.split('-').reverse().join('/') : 'Selecionar data'}
-                </Text>
-              </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.dateButton}
+            onPress={() => setShowDatePicker(true)}
+          >
+            <MaterialIcons name="event" size={20} color={themes.colors.primary} />
+            <Text style={data ? styles.dateButtonText : styles.dateButtonPlaceholder}>
+              {data ? data.split('-').reverse().join('/') : 'Selecionar data'}
+            </Text>
+          </TouchableOpacity>
 
-              <TouchableOpacity 
-                style={styles.dateButton}
-                onPress={() => setShowTimePicker(true)}
-              >
-                <MaterialIcons name="access-time" size={20} color={themes.colors.primary} />
-                <Text style={hora ? styles.dateButtonText : styles.dateButtonPlaceholder}>
-                  {hora || 'Selecionar hora'}
-                </Text>
-              </TouchableOpacity>
-            </>
-          )}
+          <TouchableOpacity 
+            style={styles.dateButton}
+            onPress={() => setShowTimePicker(true)}
+          >
+            <MaterialIcons name="access-time" size={20} color={themes.colors.primary} />
+            <Text style={hora ? styles.dateButtonText : styles.dateButtonPlaceholder}>
+              {hora || 'Selecionar hora'}
+            </Text>
+          </TouchableOpacity>
         </View>
 
         <TouchableOpacity 
@@ -339,8 +243,7 @@ function NovoAgendamento({ navigation, route }: any) {
         </TouchableOpacity>
       </ScrollView>
 
-      {/* DatePicker para Mobile */}
-      {Platform.OS !== 'web' && showDatePicker && DateTimePicker && (
+      {showDatePicker && DateTimePicker && (
         <DateTimePicker
           value={selectedDate}
           mode="date"
@@ -350,8 +253,7 @@ function NovoAgendamento({ navigation, route }: any) {
         />
       )}
 
-      {/* TimePicker para Mobile */}
-      {Platform.OS !== 'web' && showTimePicker && DateTimePicker && (
+      {showTimePicker && DateTimePicker && (
         <DateTimePicker
           value={selectedDate}
           mode="time"
@@ -400,12 +302,10 @@ function ListaAgendamentos({ navigation }: any) {
       if (dados) {
         const todosAgendamentos = JSON.parse(dados);
         
-        // Filtra apenas os agendamentos do cliente logado
         const meusAgendamentos = todosAgendamentos.filter((a: Agendamento) => 
           a.clienteId === clienteId
         );
         
-        // Ordena por data e hora
         meusAgendamentos.sort((a: Agendamento, b: Agendamento) => {
           if (a.data === b.data) {
             return a.hora.localeCompare(b.hora);
@@ -431,25 +331,19 @@ function ListaAgendamentos({ navigation }: any) {
           style: 'destructive',
           onPress: async () => {
             try {
-              // Carrega todos os agendamentos
               const dados = await AsyncStorage.getItem('@barbearia:agendamentos');
               if (dados) {
                 const todosAgendamentos = JSON.parse(dados);
-                
-                // Atualiza o status do agendamento específico
                 const agendamentosAtualizados = todosAgendamentos.map((a: Agendamento) =>
                   a.id === agendamento.id ? { ...a, status: 'cancelado' } : a
                 );
                 
-                // Salva no AsyncStorage
                 await AsyncStorage.setItem('@barbearia:agendamentos', JSON.stringify(agendamentosAtualizados));
                 
-                // Atualiza a lista local
                 setAgendamentos(prev =>
                   prev.map(a => a.id === agendamento.id ? { ...a, status: 'cancelado' } : a)
                 );
                 
-                // Fecha o modal se estiver aberto
                 if (agendamentoSelecionado?.id === agendamento.id) {
                   setModalVisible(false);
                 }
@@ -662,7 +556,7 @@ function ListaAgendamentos({ navigation }: any) {
   );
 }
 
-// Componente principal que gerencia as duas telas
+// Componente principal
 export default function MeusAgendamentos() {
   return (
     <Stack.Navigator screenOptions={{ headerShown: false }}>

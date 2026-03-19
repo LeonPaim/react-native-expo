@@ -52,9 +52,68 @@ export default function Produtos({ navigation }: any) {
   ];
 
   useEffect(() => {
+    inicializarDados();
     carregarProdutos();
     carregarCarrinho();
   }, []);
+
+  const inicializarDados = async () => {
+    try {
+      const produtosExistentes = await AsyncStorage.getItem('@barbearia:produtos');
+      if (!produtosExistentes) {
+        const produtosIniciais: Produto[] = [
+          { 
+            id: '1', 
+            nome: 'Pomada Modeladora', 
+            descricao: 'Pomada para cabelo, efeito mate', 
+            preco: 35, 
+            categoria: 'cabelo',
+            estoque: 10,
+            ativo: true 
+          },
+          { 
+            id: '2', 
+            nome: 'Óleo para Barba', 
+            descricao: 'Óleo hidratante para barba', 
+            preco: 28, 
+            categoria: 'barba',
+            estoque: 15,
+            ativo: true 
+          },
+          { 
+            id: '3', 
+            nome: 'Creme de Barbear', 
+            descricao: 'Creme para barbear, 200ml', 
+            preco: 22, 
+            categoria: 'barba',
+            estoque: 8,
+            ativo: true 
+          },
+          { 
+            id: '4', 
+            nome: 'Protetor Solar Facial', 
+            descricao: 'Protetor solar FPS 30', 
+            preco: 45, 
+            categoria: 'pele',
+            estoque: 5,
+            ativo: true 
+          },
+          { 
+            id: '5', 
+            nome: 'Pente Profissional', 
+            descricao: 'Pente para cabelo', 
+            preco: 15, 
+            categoria: 'acessorio',
+            estoque: 20,
+            ativo: true 
+          }
+        ];
+        await AsyncStorage.setItem('@barbearia:produtos', JSON.stringify(produtosIniciais));
+      }
+    } catch (error) {
+      console.log('Erro ao inicializar dados:', error);
+    }
+  };
 
   const carregarProdutos = async () => {
     try {
